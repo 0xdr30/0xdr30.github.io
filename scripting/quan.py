@@ -26,29 +26,22 @@ def checkDependencies(defList):
             InstallOut = shellExecute("pip install "+i)
             print((InstallOut))
 
-
-
-
 dependencies = ["pywin32","pyuac"]
 checkDependencies(dependencies)
 #this template is meant for window
 #modification are needed for use with linux
 
-
-
-
 def main():
     print("All dependencies installed")
     import pyuac
     if (pyuac.isUserAdmin()):
-        #stopping services
+        #stopping services example
         print("Stopping Print Spooler")
         powershellExecute("Stop-Service -Name \"Spooler\"")
+        powershellExecute("Set-Service -StartupType Disable \"Spooler\"")
 
 
-
-
-        input("Enter to continue")
+        input("Press Enter to exit")
     else:
         pyuac.runAsAdmin()
 
@@ -57,6 +50,4 @@ if __name__ == "__main__" and not depNotFound:
     main()
 elif depNotFound:
     print("Installed all missing dependencies, restart the script to continue")
-
-
-
+input("Press Enter to exit")
