@@ -6,8 +6,19 @@ body, html{
     font-family: 'Source Code Pro';
 }
 
-
+div{
+    display: block;
+}
 h1 { 
     font-size: 100%;
     font-family: 'Source Code Pro';
+}
+
+.title{
+    text-align: center;
+    margin: auto;
+    width: 50%;
+    border: none;
+    padding: 10px;
+    font-size: 120%;
 }
