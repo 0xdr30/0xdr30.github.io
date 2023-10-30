@@ -10,15 +10,28 @@
   </head>
   <body>
     <main>
-      <div class="nav">
-        <ul>
-          <li><a class="active" href="index.html">Home</a></li>
-          <li><a href="scripting/scripts.html">Scripting</a></li>
-          <li><a href="windows/windows.html">Windows</a></li>
-          <li><a href="linux/linux.html">Linux</a></li>
-        </ul>
-        <h1 class="title">Whoppenheimer</h1>
+      <div class="navbar">
+        <a href="#home">Home</a>
+        <a href="scripting/scripts.html">Scripting</a>
+        <div class="dropdown">
+          <button class="dropbtn">Windows
+          </button>
+          <div class="dropdown-content">
+            <a href="#">Windows Server</a>
+            <a href="#">Windows 10</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="dropbtn">Linux
+          </button>
+          <div class="dropdown-content">
+            <a href="linux/debian.html">Debian</a>
+            <a href="linux/ubuntu.html">Ubuntu</a>
+          </div>
+        </div>
       </div>
+      
+      <h1 class="title">Whoppenheimer</h1>
     </main>
 	<script src="js/script.js"></script>
   </body>

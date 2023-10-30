@@ -6,24 +6,35 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Home</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="icon" href="./favicon.ico" type="image/x-icon">
   </head>
   <body>
     <main>
-      <div class="nav">
-        <ul>
-          <li><a class="active" href="../index.html">Home</a></li>
-          <li><a href="./scripts.html">Scripting</a></li>
-          <li><a href="../windows/windows.html">Windows</a></li>
-          <li><a href="../linux/linux.html">Linux</a></li>
-        </ul>
+      <div class="navbar">
+        <a href="#home">Home</a>
+        <a href="scripting/scripts.html">Scripting</a>
+        <div class="dropdown">
+          <button class="dropbtn">Windows
+          </button>
+          <div class="dropdown-content">
+            <a href="#">Windows Server</a>
+            <a href="#">Windows 10</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="dropbtn">Linux
+          </button>
+          <div class="dropdown-content">
+            <a href="linux/debian.html">Debian</a>
+            <a href="linux/ubuntu.html">Ubuntu</a>
+          </div>
+        </div>
       </div>
-      <h1 class="title">Scripting</h1>
-        <li><a href="quan.py" download>Quans_Script</a></li>
-        <li><a href="" download>Placeholder</a></li>
-        <li><a href="" download>Placeholder</a></li>
+      
+      <h1 class="title">Scripts</h1>
+      <a href="quan.py" download>Quans_Script</a>
     </main>
 	<script src="js/script.js"></script>
   </body>
 </html>
+
 
