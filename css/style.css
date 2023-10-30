@@ -1,29 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Source+Code+Pro&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Source+Code+Pro&display=swap');
 
 
-body, html{
+  body, html{
     width: 100%;
     font-family: 'Source Code Pro';
     background-color: black;
-}
+  }
 
-div{
+  div{
     display: block;
-}
-h1 { 
+  }
+  h1 { 
     font-size: 100%;
-}
-
-a {
-    font-size: 120%;
-    text-decoration: none;
-    color: white;
-
-}
-a:hover {
+  }
+  a:hover {
     text-decoration: underline;
-}
-.title{
+  }
+  .title{
     text-align: center;
     margin: auto;
     width: 50%;
@@ -31,7 +24,7 @@ a:hover {
     padding: 10px;
     font-size: 175%;
     color: white;
-}
+  }
   
   .navbar {
     overflow: hidden;
@@ -93,3 +86,17 @@ a:hover {
   .dropdown:hover .dropdown-content {
     display: block;
   }
+
+
+
+  .scripts a {
+    font-size: 120%;
+    text-decoration: none;
+    color: white;
+  }
+
+  .scripts a:hover{
+    text-decoration: underline;
+  }
+
+  
