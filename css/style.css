@@ -4,6 +4,7 @@
 body, html{
     width: 100%;
     font-family: 'Source Code Pro';
+    background-color: black;
 }
 
 div{
@@ -20,5 +21,30 @@ h1 {
     width: 50%;
     border: none;
     padding: 10px;
-    font-size: 120%;
+    font-size: 175%;
+    color: white;
 }
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+  }
+  
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  li a:hover {
+    background-color: #111;
+  }
