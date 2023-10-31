@@ -7,6 +7,35 @@
     background-color: black;
   }
 
+  label{
+    color: white;
+    width: 10em;
+    display: inline-block;
+    padding-bottom: 1rem;
+    text-align: right;
+  }
+  input{
+    width: 11rem;
+  }
+  .signup button{
+    margin-left: 10.7rem;
+    width: 11rem;
+    font-family: 'Source Code Pro';
+    padding: 0px;
+    text-align: center;
+    border-style: solid;
+  }
+  .signup button:hover{
+    background-color: black;
+    color: white;
+  }
+  form{
+    display: block;
+  }
+  form button{
+    text-align: center;
+  }
+ 
   div{
     display: block;
   }
@@ -15,6 +44,13 @@
   }
   h2{
     font-size: 100%;
+  }
+  p{
+    font-size:100%;
+  }
+
+  .scripts p{
+    color: white;
   }
   a:hover {
     text-decoration: underline;
