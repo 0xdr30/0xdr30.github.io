@@ -1,0 +1,11 @@
+Result Skip Results Iframe
+body {
+  background: #1D1E22;
+  color: white;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+body:after{
+  margin-top: 10rem;
+}
