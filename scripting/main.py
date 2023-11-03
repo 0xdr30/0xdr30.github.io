@@ -175,6 +175,25 @@ def remove_unauthorized_users():
                 print("Deleting unauthorized user '" + user + "'!")
                 run("deluser " + user)
 
+def change_passwords():
+    allowed_users = check_users()
+    for user in allowed_users:
+        print("Changing password for '" + user + "'!")
+        run("passwd " + user)
+
+def activate_firewall():
+    install_packages("ufw")
+    run("ufw enable")
+    run("ufw logging on")
+    
+    
+def install_antivirus():
+    run("apt install clamav")
+    run("clamscan")
+    
+    
+def remove_pup():
+    run("apt purge wireshark samba apache2 ftp vsftp bfgminer netcat john nmap")
 ### END OF FUNCTION DEFINITIONS ###
 
 
@@ -189,12 +208,20 @@ def main():
         exit(1)
     
     update_system()
+    
     remove_unauthorized_users()
     
+    print("REMEMBER YOUR PASSWORD: P@$$word123456789")
+    run("echo 'P@ssword123456789' > your_password.txt")
+    
+    change_passwords()
+    
+    activate_firewall()
+    
+    install_antivirus()
+    
+    
     
 
-
-print("Start Changing Passwords")
-for user in allowed_users:
-    run('passwd ' + user)
-    run_print("P@$$word123456789")
+main()
+    
