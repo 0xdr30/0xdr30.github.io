@@ -134,17 +134,21 @@
     display: block;
   }
   
-
+  .scripts {
+    width: 100%;
+    display: block;
+  }
   .scripts a {
-    padding: 0.5rem 0.1
-    rem 0.5rem 0.2rem;
+    margin: 10px;
+    border-radius: 10px;
+    padding: 1rem 1rem 1rem 1rem;
     font-size: 120%;
     text-decoration: none;
     color: white;
+    display: inline-block;
   }
 
   .scripts a:hover{
-    text-decoration: underline;
     background-color: white;
     color: black;
   }
