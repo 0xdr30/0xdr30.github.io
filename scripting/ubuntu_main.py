@@ -23,7 +23,7 @@ def exists(file):
 ME = run("id -un")
 # install dependencies
 run("apt update -y")
-run("apt install python3-pip python3-bs4 python3-beautifulsoup4 2>/dev/null")
+run("apt install python3-lxml python3-bs4 python3-beautifulsoup4 2>/dev/null")
 
 import lxml
 from lxml.html.clean import Cleaner
@@ -165,6 +165,7 @@ def group_audit():
     if sudo_group is None:
         print("Error: No Sudo Group Found!")
         exit(1)
+    return groups
 
 def update_policies():
     print("Setting Secure Password Expiration\n")
@@ -188,9 +189,6 @@ def update_policies():
 def iptables_update():
     print("Please refer to the iptables_rules document on your desktop!")
     run("iptables -L > /home/" + ME + "/Desktop/iptables_rules.txt")
-    
-
-
 
 def check_users():
     try:
@@ -202,7 +200,7 @@ def check_users():
               "1. Enter a comma seperated list of Usernames as is in the README\n"
               "2. Enter the name of a text file")
         allowed_users = input("User file unavailable. Please enter a comma seperated list of users beginning with authorized administrators: \n").split(", ")
-        
+        continue
     return allowed_users
 
 def remove_unauthorized_users():
@@ -222,12 +220,7 @@ def remove_unauthorized_users():
         if user < admins_count:
             continue
         elif user > admins_count:
-            run("deluser " + user + " sudo")
-
-
-
-
-    
+            run("deluser " + user + " sudo")  
     
 def change_passwords():
     allowed_users = check_users()
@@ -278,6 +271,8 @@ def main():
 
     print("Refer to your_password.txt for your password")
 
+    update_policies()
+
     change_passwords()
     
     activate_firewall()
@@ -285,7 +280,5 @@ def main():
     install_antivirus()
     
     
-    
-
 main()
     
