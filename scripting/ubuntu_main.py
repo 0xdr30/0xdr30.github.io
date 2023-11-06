@@ -164,7 +164,7 @@ def check_users():
         allowed_users = user_file.readlines()
         allowed_users = list(map(lambda s: s.strip(), allowed_users))
     except:
-        allowed_users = input("User file unavailable. Please enter a comma seperated list of users: \n").split(", ")
+        allowed_users = input("User file unavailable. Please enter a comma seperated list of users beginning with authorized administrators: \n").split(", ")
         
     return allowed_users
 
