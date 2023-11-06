@@ -246,7 +246,11 @@ def install_antivirus():
     
     
 def remove_pup():
-    run("apt purge wireshark samba apache2 ftp vsftp bfgminer netcat john nmap")
+    dictionary = open("./hacking_tools.txt", "R").readlines()
+    for tool_name in dictionary:
+        run("apt purge " + tool_name)
+    run("apt autoremove")
+    
 ### END OF FUNCTION DEFINITIONS ###
 
 
