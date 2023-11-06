@@ -268,7 +268,7 @@ def main():
     except:
         print("Cannot Create User File.")
     
-    #update_system()
+    update_system()
     
     remove_unauthorized_users()
 
@@ -278,7 +278,7 @@ def main():
     
     install_antivirus()
 
-    #update_policies()
+    update_policies()
 
     change_passwords(new_password())
 
