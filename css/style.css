@@ -8,41 +8,6 @@
     color:#d8d8d8;
   }
 
-<<<<<<< HEAD
-  label{
-    color: white;
-    width: 10em;
-    display: inline-block;
-    padding-bottom: 1rem;
-    text-align: right;
-  }
-  input{
-    width: 11rem;
-  }
-  .signup button{
-    margin-left: 10.7rem;
-    width: 11rem;
-    font-family: 'Source Code Pro';
-    padding: 0px;
-    text-align: center;
-    border-style: solid;
-  }
-  .signup button:hover{
-    background-color: black;
-    color: white;
-  }
-  form{
-    display: block;
-  }
-  form button{
-    text-align: center;
-  }
- 
-  div{
-    display: block;
-  }
-=======
->>>>>>> e189ac27108c3c3dfda6ec1c8c2d8194ad17bc45
   h1 { 
     font-size: 100%;
   }
@@ -50,23 +15,7 @@
   h2{
     font-size: 100%;
   }
-<<<<<<< HEAD
-  p{
-    font-size:100%;
-  }
-
-  .scripts p{
-    color: white;
-=======
-
-  a {
-    color: white;
-    float: left;
-    margin: none;
-    padding: none;
-
->>>>>>> e189ac27108c3c3dfda6ec1c8c2d8194ad17bc45
-  }
+  
   a:hover {
     text-decoration: underline;
   }
