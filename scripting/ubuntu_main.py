@@ -166,6 +166,10 @@ def group_audit():
         print("Error: No Sudo Group Found!")
         exit(1)
 
+def update_policies():
+    print("Setting Secure Password Expiration")
+    run("sed -i 's/PASS_MAX_DAYS    99999/PASS_MAX_DAYS     99/g' /etc/login.defs")
+    
 def check_users():
     try:
         user_file = open("USERS.txt", 'r')
