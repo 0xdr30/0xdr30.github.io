@@ -160,17 +160,16 @@ def group_audit():
             break
         
     if sudo_group is None:
-        print("Error: No Sudo Group Found!")
+        print("Error: No Sudo Group Found!\n Exiting \n")
         exit(1)
     return groups
 
 def update_policies():
     print("Setting Secure Password Expiration\n")
-    run("sed -i '/PASS_MAX_DAYS/c\PASS_MAX_DAYS   99' /etc/login.defs")
-    run("sed -i '/PASS_MIN_DAYS/c\PASS_MIN_DAYS   5' /etc/login.defs")
-    run("sed -i '/PASS_WARN_AGE/c\PASS_WARN_AGE   7' /etc/login.defs")
+    run("sed -i '/PASS_MAX_DAYS/c\\PASS_MAX_DAYS   99' /etc/login.defs")
+    run("sed -i '/PASS_MIN_DAYS/c\\PASS_MIN_DAYS   5' /etc/login.defs")
+    run("sed -i '/PASS_WARN_AGE/c\\PASS_WARN_AGE   7' /etc/login.defs")
     print("Setting Secure Password Content Requirements\n")
-    install_packages("libpam-pwquality")
     run("sed -i '/minlen/c\\minlen = 14' /etc/security/pwquality.conf")
     run("sed -i '/dcredit/c\\dcredit = -2' /etc/security/pwquality.conf")
     run("sed -i '/ucredit/c\\ucredit = -2' /etc/security/pwquality.conf")
@@ -195,7 +194,6 @@ def check_users():
     except:
         while allowed_users == ['']:
             allowed_users = input("\nPlease enter a comma seperated list of authorized users: \n").split(", ")
-    print(allowed_users)
     allowed_users_lower = []
     for user in allowed_users:
         allowed_users_lower.append(user.lower())
@@ -205,11 +203,11 @@ def remove_unauthorized_users():
     current_users = user_audit()
     allowed_users = check_users()
     if current_users == allowed_users:
-        print("Users are good! (Surprisingly :D)")
+        print("\nUsers are good! (Surprisingly :D)\n")
     elif current_users != allowed_users:
         for user in current_users:
             if user.lower() not in allowed_users:
-                print("Deleting unauthorized user '" + user + "'!")
+                print("Deleting unauthorized user '" + user + "'!\n")
                 run("deluser " + user)
         for user in allowed_users:
             run("useradd " + user)
@@ -220,30 +218,32 @@ def remove_unauthorized_users():
 
     for user in current_users:
         if user not in admins:
-            print("Removing " + user + " from sudo")
+            print("Removing " + user + " from sudo\n")
             run("deluser " + user + " sudo")
     
-def change_passwords():
-    allowed_users = check_users()
-    for user in allowed_users:
-        print("Changing password for '" + user + "'!")
-        run("passwd " + user)
+def change_passwords(password):
+    users = user_audit()
+    for user in users:
+        print("Changing password for '" + user + "'!\n")
+        run("usermod -p " + password + " " + user)
 
 def activate_firewall():
-    install_packages("ufw")
-    run("ufw enable")
-    run("ufw logging on")
+    install_packages("ufw\n")
+    run("ufw enable\n")
+    run("ufw logging on\n")
     
 def install_antivirus():
-    run("apt install clamav")
-    run("clamscan")
-    
+    run("apt install clamav -y\n")
+    run("clamscan -y\n")
     
 def remove_pup():
-    dictionary = open("./hacking_tools.txt", "R").readlines()
+    dictionary = open("./hacking_tools.txt", "r").readlines()
     for tool_name in dictionary:
-        run("apt purge " + tool_name)
-    run("apt autoremove")
+        print("Deleting any trace of " + tool_name)
+        run("apt purge -y" + tool_name)
+    print("Removing leftovers :D")
+    run("apt autoremove -y")
+
 def new_password():
     print("Please input a secure password containing:\n"
           "2 Special Characters\n"
@@ -253,7 +253,9 @@ def new_password():
 
     run("echo " + your_password + " > your_password.txt")
 
-    print("Refer to your_password.txt for your password")  
+    print("Refer to your_password.txt for your password")
+
+    return your_password  
 ### END OF FUNCTION DEFINITIONS ###
 
 
@@ -269,16 +271,17 @@ def main():
     #update_system()
     
     remove_unauthorized_users()
-    
-    new_password()
 
-    update_policies()
-
-    change_passwords()
+    remove_pup()
     
     activate_firewall()
     
     install_antivirus()
+
+    #update_policies()
+
+    change_passwords(new_password())
+
     
     
 main()
