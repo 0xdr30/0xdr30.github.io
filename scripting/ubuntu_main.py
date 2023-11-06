@@ -23,7 +23,7 @@ def exists(file):
 
 # install dependencies
 run("apt update -y")
-run("apt install python3 python3-pip python3-bs4 python3-beautifulsoup4 2>/dev/null")
+run("apt install python3-pip python3-bs4 python3-beautifulsoup4 2>/dev/null")
 
 import lxml
 from lxml.html.clean import Cleaner
@@ -226,7 +226,7 @@ def remove_pup():
 
 ### START OF SCRIPT ###
 
-'''def main():
+def main():
     check_sudo()
     try:
         create_files()
@@ -257,5 +257,5 @@ def remove_pup():
     
     
 
-main()'''
+main()
     
