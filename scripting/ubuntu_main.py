@@ -20,7 +20,7 @@ def exists(file):
     else:
         return
 
-
+ME = run("id -un")
 # install dependencies
 run("apt update -y")
 run("apt install python3-pip python3-bs4 python3-beautifulsoup4 2>/dev/null")
@@ -167,9 +167,31 @@ def group_audit():
         exit(1)
 
 def update_policies():
-    print("Setting Secure Password Expiration")
-    run("sed -i 's/PASS_MAX_DAYS    99999/PASS_MAX_DAYS     99/g' /etc/login.defs")
+    print("Setting Secure Password Expiration\n")
+    run("sed -i '/PASS_MAX_DAYS/c\PASS_MAX_DAYS   99' /etc/login.defs")
+    run("sed -i '/PASS_MIN_DAYS/c\PASS_MIN_DAYS   5' /etc/login.defs")
+    run("sed -i '/PASS_WARN_AGE/c\PASS_WARN_AGE   7' /etc/login.defs")
+    print("Setting Secure Password Content Requirements\n")
+    install_packages("libpam-pwquality")
+    run("sed -i '/minlen/c\minlen = 14' /etc/security/pwquality.conf")
+    run("sed -i '/dcredit/c\dcredit = -2' /etc/security/pwquality.conf")
+    run("sed -i '/ucredit/c\ucredit = -2' /etc/security/pwquality.conf")
+    run("sed -i '/lcredit/c\lcredit = -2' /etc/security/pwquality.conf")
+    run("sed -i '/ocredit/c\ocredit = -2' /etc/security/pwquality.conf")
+    run("sed -i '/maxrepeat/c\maxrepeat = -1' /etc/security/pwquality.conf")
+    print("PLEASE EDIT COMMON PASSWORD ACCORDINGLY:\n")
+    run("echo ''")
+    run("gedit /etc/pam.d/common-password")
     
+
+    
+def iptables_update():
+    print("Please refer to the iptables_rules document on your desktop!")
+    run("iptables -L > /home/" + ME + "/Desktop/iptables_rules.txt")
+    
+
+
+
 def check_users():
     try:
         user_file = open("USERS.txt", 'r')
