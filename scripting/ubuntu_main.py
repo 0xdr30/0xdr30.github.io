@@ -173,7 +173,8 @@ def update_policies():
     #install_packages("libpam-pwquality")
     run("sed -i '/minlen/c\minlen = 14' /etc/security/pwquality.conf")
     run("sed -i '/dcredit/c\dcredit = -2' /etc/security/pwquality.conf")
-    #run("sed -i '/ucredit/c\ucredit = -2' /etc/security/pwquality.conf")
+    
+    run("sed -i '/ucredit/c\ucredit = -2' /etc/security/pwquality.conf")
     run("sed -i '/lcredit/c\lcredit = -2' /etc/security/pwquality.conf")
     run("sed -i '/ocredit/c\ocredit = -2' /etc/security/pwquality.conf")
     run("sed -i '/maxrepeat/c\maxrepeat = -1' /etc/security/pwquality.conf")
