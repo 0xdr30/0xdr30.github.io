@@ -159,9 +159,13 @@ def group_audit():
         exit(1)
 
 def check_users():
-    user_file = open("USERS.txt", 'r')
-    allowed_users = user_file.readlines()
-    allowed_users = list(map(lambda s: s.strip(), allowed_users))
+    try:
+        user_file = open("USERS.txt", 'r')
+        allowed_users = user_file.readlines()
+        allowed_users = list(map(lambda s: s.strip(), allowed_users))
+    except:
+        allowed_users = input("User file unavailable. Please enter a comma seperated list of users: \n").split(", ")
+        
     return allowed_users
 
 def remove_unauthorized_users():
@@ -175,6 +179,19 @@ def remove_unauthorized_users():
                 print("Deleting unauthorized user '" + user + "'!")
                 run("deluser " + user)
 
+    admins_count = int(input("How many administrators are there?: \n"))
+    current_users = user_audit()
+    for user in current_users:
+        if user < admins_count:
+            continue
+        elif user > admins_count:
+            run("deluser " + user + " sudo")
+
+
+
+
+    
+    
 def change_passwords():
     allowed_users = check_users()
     for user in allowed_users:
@@ -205,15 +222,22 @@ def main():
         create_files()
     except:
         print("Cannot Create User File.")
-        exit(1)
+        continue
     
     update_system()
     
     remove_unauthorized_users()
     
-    print("REMEMBER YOUR PASSWORD: P@$$word123456789")
-    run("echo 'P@ssword123456789' > your_password.txt")
-    
+    print("Please input a secure password containing:\n "
+          "2 Special Characters\n"
+          "2 Capital Letters\n"
+          "No common dictionary items\n")
+    your_password = input("Enter your password here: \n")
+
+    run("echo " + your_password + " > your_password.txt")
+
+    print("Refer to your_password.txt for your password")
+
     change_passwords()
     
     activate_firewall()
