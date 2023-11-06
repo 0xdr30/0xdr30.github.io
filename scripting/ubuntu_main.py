@@ -17,8 +17,9 @@ def exists(file):
     else:
         return
 # install dependencies
-run("apt update -y")
-run("apt install python3-lxml python3-bs4 python3-beautifulsoup4 python3-psutil 2>/dev/null")
+#run("apt update -y")
+run("apt -f install")
+run("apt install python3-lxml python3-psutil python3-bs4 python3-beautifulsoup4 python3-psutil 2>/dev/null")
 
 import lxml
 from lxml.html.clean import Cleaner
@@ -125,7 +126,6 @@ def check_sudo():
     
 def install_packages(packages):
     print ("Installing " + packages)
-    run('apt update -y')
     run('apt install -y ' + packages)
     print("Finished installing " + packages)
         
@@ -171,13 +171,12 @@ def update_policies():
     run("sed -i '/PASS_WARN_AGE/c\PASS_WARN_AGE   7' /etc/login.defs")
     print("Setting Secure Password Content Requirements\n")
     install_packages("libpam-pwquality")
-    run("sed -i '/minlen/c\minlen = 14' /etc/security/pwquality.conf")
-    run("sed -i '/dcredit/c\dcredit = -2' /etc/security/pwquality.conf")
-    
-    run("sed -i '/ucredit/c\ucredit = -2' /etc/security/pwquality.conf")
-    run("sed -i '/lcredit/c\lcredit = -2' /etc/security/pwquality.conf")
-    run("sed -i '/ocredit/c\ocredit = -2' /etc/security/pwquality.conf")
-    run("sed -i '/maxrepeat/c\maxrepeat = -1' /etc/security/pwquality.conf")
+    run("sed -i '/minlen/c\\minlen = 14' /etc/security/pwquality.conf")
+    run("sed -i '/dcredit/c\\dcredit = -2' /etc/security/pwquality.conf")
+    run("sed -i '/ucredit/c\\ucredit = -2' /etc/security/pwquality.conf")
+    run("sed -i '/lcredit/c\\lcredit = -2' /etc/security/pwquality.conf")
+    run("sed -i '/ocredit/c\\ocredit = -2' /etc/security/pwquality.conf")
+    run("sed -i '/maxrepeat/c\\maxrepeat = -1' /etc/security/pwquality.conf")
     print("PLEASE EDIT COMMON PASSWORD ACCORDINGLY:\n")
     run("echo ''")
     run("gedit /etc/pam.d/common-password")
@@ -187,14 +186,16 @@ def update_policies():
 def iptables_update():
     print("Please refer to the iptables_rules document on your desktop!")
     run("iptables -L > /home/" + ME + "/Desktop/iptables_rules.txt")
-
 def check_users():
+    allowed_users = ['']
     try:
         user_file = open("USERS.txt", 'r')
         allowed_users = user_file.readlines()
         allowed_users = list(map(lambda s: s.strip(), allowed_users))
     except:
-        allowed_users = input("User file unavailable.\nPlease enter a comma seperated list of authorized users: \n").split(", ")
+        while allowed_users == ['']:
+            allowed_users = input("\nPlease enter a comma seperated list of authorized users: \n").split(", ")
+    print(allowed_users)
     allowed_users_lower = []
     for user in allowed_users:
         allowed_users_lower.append(user.lower())
@@ -214,6 +215,7 @@ def remove_unauthorized_users():
             run("useradd " + user)
 
     admins = input("Please enter a comma seperated list of administrators: \n").split(", ")
+    
     current_users = user_audit()
 
     for user in current_users:
