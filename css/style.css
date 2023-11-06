@@ -15,7 +15,10 @@
   h2{
     font-size: 100%;
   }
-  
+
+  a {
+    color: white;
+  }
   a:hover {
     text-decoration: underline;
   }
@@ -130,15 +133,16 @@
   .scripts {
     width: 100%;
     display: block;
+    align-items: center;
   }
   .scripts a {
-    margin: 10px;
     border-radius: 10px;
-    padding: 1rem 1rem 1rem 1rem;
+    padding: 1em 1em 1em 1em;
     font-size: 120%;
     text-decoration: none;
     color: white;
-    display: inline-block;
+    display: block;
+    float: left;
   }
 
   .scripts a:hover{
@@ -150,6 +154,8 @@
     text-decoration: none;
     display: block;
     text-align: center;
+    background-color: #333;
+    border-radius: 10px;
   }
 
 
