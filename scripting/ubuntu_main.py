@@ -2,14 +2,6 @@ import os, requests, lxml, shutil, subprocess, platform, pwd, grp
 from lxml.html.clean import Cleaner
 from bs4 import BeautifulSoup
 from itertools import dropwhile
-from tkinter import *
-from tkinter import ttk
-root = Tk()
-
-frm = ttk.Frame(root, padding=10)
-frm.grid()
-
-ttk.Label(frm, text="Firewall").grid(column=0, row=0)
 
 
 cleaner = Cleaner()
@@ -173,6 +165,9 @@ def check_users():
         allowed_users = user_file.readlines()
         allowed_users = list(map(lambda s: s.strip(), allowed_users))
     except:
+        print("Choice:\n"
+              "1. Enter a comma seperated list of Usernames as is in the README\n"
+              "2. Enter the name of a text file")
         allowed_users = input("User file unavailable. Please enter a comma seperated list of users beginning with authorized administrators: \n").split(", ")
         
     return allowed_users
@@ -211,9 +206,6 @@ def activate_firewall():
     install_packages("ufw")
     run("ufw enable")
     run("ufw logging on")
-
-ttk.Button(frm, text="Activate", command=activate_firewall()).grid(column=1, row=0)
-
     
 def install_antivirus():
     run("apt install clamav")
