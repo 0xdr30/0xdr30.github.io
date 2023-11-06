@@ -1,9 +1,6 @@
 import os, requests,shutil, subprocess, platform, pwd, grp
 from itertools import dropwhile
 
-
-cleaner = Cleaner()
-
 # Functions
 
 def run(command):
@@ -19,16 +16,15 @@ def exists(file):
         os.remove(file)
     else:
         return
-
-ME = run("id -un")
 # install dependencies
 run("apt update -y")
-run("apt install python3-lxml python3-bs4 python3-beautifulsoup4 2>/dev/null")
+run("apt install python3-lxml python3-bs4 python3-beautifulsoup4 python3-psutil 2>/dev/null")
 
 import lxml
 from lxml.html.clean import Cleaner
 from bs4 import BeautifulSoup
-
+import psutil
+cleaner = Cleaner()
 def get_readme():
     file = open('./README.desktop', 'r')
     file = file.readlines()
@@ -128,14 +124,14 @@ def check_sudo():
         exit(1)
     
 def install_packages(packages):
-        print ("Installing " + packages)
-        run('apt update -y')
-        run('apt install -y ' + packages)
-        print("Finished installing " + packages)
+    print ("Installing " + packages)
+    run('apt update -y')
+    run('apt install -y ' + packages)
+    print("Finished installing " + packages)
         
 def start_service(service):
-        run('systemctl start ' + service)
-        print("Running on Ubuntu 22.04")
+    run('systemctl start ' + service)
+    print("Running on Ubuntu 22.04")
         
 def update_system():
     print("\n Update System...")
@@ -146,11 +142,12 @@ def update_system():
 def user_audit():
     UID_MIN = int(run("awk '/^UID_MIN/ {print $2}' /etc/login.defs"))
     UID_MAX = int(run("awk '/^UID_MAX/ {print $2}' /etc/login.defs"))
-    ME = run("logname")
-
-    all_users = pwd.getpwall()
     users = []
-    users.append(ME)
+    all_users = pwd.getpwall()
+    for user in all_users:
+        if user.pw_uid in range(UID_MIN, UID_MAX):
+            users.append(user.pw_name)
+    print(users)
     return users
 
 def group_audit():
@@ -173,10 +170,10 @@ def update_policies():
     run("sed -i '/PASS_MIN_DAYS/c\PASS_MIN_DAYS   5' /etc/login.defs")
     run("sed -i '/PASS_WARN_AGE/c\PASS_WARN_AGE   7' /etc/login.defs")
     print("Setting Secure Password Content Requirements\n")
-    install_packages("libpam-pwquality")
+    #install_packages("libpam-pwquality")
     run("sed -i '/minlen/c\minlen = 14' /etc/security/pwquality.conf")
     run("sed -i '/dcredit/c\dcredit = -2' /etc/security/pwquality.conf")
-    run("sed -i '/ucredit/c\ucredit = -2' /etc/security/pwquality.conf")
+    #run("sed -i '/ucredit/c\ucredit = -2' /etc/security/pwquality.conf")
     run("sed -i '/lcredit/c\lcredit = -2' /etc/security/pwquality.conf")
     run("sed -i '/ocredit/c\ocredit = -2' /etc/security/pwquality.conf")
     run("sed -i '/maxrepeat/c\maxrepeat = -1' /etc/security/pwquality.conf")
@@ -196,12 +193,11 @@ def check_users():
         allowed_users = user_file.readlines()
         allowed_users = list(map(lambda s: s.strip(), allowed_users))
     except:
-        print("Choice:\n"
-              "1. Enter a comma seperated list of Usernames as is in the README\n"
-              "2. Enter the name of a text file")
-        allowed_users = input("User file unavailable. Please enter a comma seperated list of users beginning with authorized administrators: \n").split(", ")
-        continue
-    return allowed_users
+        allowed_users = input("User file unavailable.\nPlease enter a comma seperated list of authorized users: \n").split(", ")
+    allowed_users_lower = []
+    for user in allowed_users:
+        allowed_users_lower.append(user.lower())
+    return allowed_users_lower
 
 def remove_unauthorized_users():
     current_users = user_audit()
@@ -210,17 +206,19 @@ def remove_unauthorized_users():
         print("Users are good! (Surprisingly :D)")
     elif current_users != allowed_users:
         for user in current_users:
-            if user not in allowed_users:
+            if user.lower() not in allowed_users:
                 print("Deleting unauthorized user '" + user + "'!")
                 run("deluser " + user)
+        for user in allowed_users:
+            run("useradd " + user)
 
-    admins_count = int(input("How many administrators are there?: \n"))
+    admins = input("Please enter a comma seperated list of administrators: \n").split(", ")
     current_users = user_audit()
+
     for user in current_users:
-        if user < admins_count:
-            continue
-        elif user > admins_count:
-            run("deluser " + user + " sudo")  
+        if user not in admins:
+            print("Removing " + user + " from sudo")
+            run("deluser " + user + " sudo")
     
 def change_passwords():
     allowed_users = check_users()
@@ -243,7 +241,16 @@ def remove_pup():
     for tool_name in dictionary:
         run("apt purge " + tool_name)
     run("apt autoremove")
-    
+def new_password():
+    print("Please input a secure password containing:\n"
+          "2 Special Characters\n"
+          "2 Capital Letters\n"
+          "No common dictionary items\n\n")
+    your_password = input("Enter your password here: \n")
+
+    run("echo " + your_password + " > your_password.txt")
+
+    print("Refer to your_password.txt for your password")  
 ### END OF FUNCTION DEFINITIONS ###
 
 
@@ -255,21 +262,12 @@ def main():
         create_files()
     except:
         print("Cannot Create User File.")
-        continue
     
-    update_system()
+    #update_system()
     
     remove_unauthorized_users()
     
-    print("Please input a secure password containing:\n "
-          "2 Special Characters\n"
-          "2 Capital Letters\n"
-          "No common dictionary items\n")
-    your_password = input("Enter your password here: \n")
-
-    run("echo " + your_password + " > your_password.txt")
-
-    print("Refer to your_password.txt for your password")
+    new_password()
 
     update_policies()
 
