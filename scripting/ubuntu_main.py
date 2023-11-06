@@ -2,6 +2,15 @@ import os, requests, lxml, shutil, subprocess, platform, pwd, grp
 from lxml.html.clean import Cleaner
 from bs4 import BeautifulSoup
 from itertools import dropwhile
+from tkinter import *
+from tkinter import ttk
+root = Tk()
+
+frm = ttk.Frame(root, padding=10)
+frm.grid()
+
+ttk.Label(frm, text="Firewall").grid(column=0, row=0)
+
 
 cleaner = Cleaner()
 
@@ -202,7 +211,9 @@ def activate_firewall():
     install_packages("ufw")
     run("ufw enable")
     run("ufw logging on")
-    
+
+ttk.Button(frm, text="Activate", command=activate_firewall()).grid(column=1, row=0)
+
     
 def install_antivirus():
     run("apt install clamav")
@@ -216,7 +227,7 @@ def remove_pup():
 
 ### START OF SCRIPT ###
 
-def main():
+'''def main():
     check_sudo()
     try:
         create_files()
@@ -247,5 +258,5 @@ def main():
     
     
 
-main()
+main()'''
     
