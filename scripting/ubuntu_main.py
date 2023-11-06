@@ -1,6 +1,4 @@
-import os, requests, lxml, shutil, subprocess, platform, pwd, grp
-from lxml.html.clean import Cleaner
-from bs4 import BeautifulSoup
+import os, requests,shutil, subprocess, platform, pwd, grp
 from itertools import dropwhile
 
 
@@ -21,7 +19,16 @@ def exists(file):
         os.remove(file)
     else:
         return
-    
+
+
+# install dependencies
+run("apt update -y")
+run("apt install python3 python3-pip python3-bs4 python3-beautifulsoup4 2>/dev/null")
+
+import lxml
+from lxml.html.clean import Cleaner
+from bs4 import BeautifulSoup
+
 def get_readme():
     file = open('./README.desktop', 'r')
     file = file.readlines()
