@@ -170,7 +170,7 @@ def update_policies():
     run("sed -i '/PASS_MIN_DAYS/c\PASS_MIN_DAYS   5' /etc/login.defs")
     run("sed -i '/PASS_WARN_AGE/c\PASS_WARN_AGE   7' /etc/login.defs")
     print("Setting Secure Password Content Requirements\n")
-    #install_packages("libpam-pwquality")
+    install_packages("libpam-pwquality")
     run("sed -i '/minlen/c\minlen = 14' /etc/security/pwquality.conf")
     run("sed -i '/dcredit/c\dcredit = -2' /etc/security/pwquality.conf")
     
