@@ -130,8 +130,7 @@ def install_packages(packages):
     print("Finished installing " + packages)
         
 def start_service(service):
-    run('systemctl start ' + service)
-    print("Running on Ubuntu 22.04")
+        run('systemctl start ' + service)
         
 def update_system():
     print("\n Update System...")
