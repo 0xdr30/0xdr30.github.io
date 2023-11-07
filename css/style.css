@@ -26,10 +26,11 @@
   .title{
     text-align: center;
     margin: auto;
-    width: 50%;
+    width: 70%;
     border: none;
     padding: 10px;
     font-size: 175%;
+    display: block;
   }
   
   .navbar {
