@@ -33,9 +33,29 @@ function update_secpol(){
     secedit.exe /configure /db %windir%\security\local.sdb /cfg $Path
 }
 
+function remove_unauthorized_users(){
+    New-Item "C:\script\users.txt"
+    $Path = "C:\script\users.txt"
+    Get-WmiObject -Class Win32_UserAccount -Filter "LocalAccount=True" |Where-Object -Property Name -ne "Administrator" | Where-Object -Property Name -ne "Guest" | Where-Object -Property Name -ne "DefaultAccount" | Where-Object -Property Name -ne "WDAGUtilityAccount" | Select-Object -Property Name > $Path
+    (get-content $Path) -replace "Name","" | Out-File $Path
+    (get-content $Path) -replace "----","" | Out-File $Path
+    powershell.exe 'C:\WINDOWS\system32\notepad.exe' $Path
+    Write-Host "Double Check your Changes"
+    powershell.exe 'C:\WINDOWS\system32\notepad.exe' $Path
+    foreach ($user in Get-Content $Path){
+        if(-not [string]::IsNullOrWhiteSpace($user)){
+            $user.Trim()
+            Write-Host ""
+            Remove-LocalUser -Name $user
+        }
+    }
+}
+
 function main(){
     remove_shares
-    update_secpol
+    #update_secpol
+    remove_unauthorized_users
 }
+
 
 main
