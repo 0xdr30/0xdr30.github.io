@@ -39,14 +39,17 @@ function remove_unauthorized_users(){
     Get-WmiObject -Class Win32_UserAccount -Filter "LocalAccount=True" |Where-Object -Property Name -ne "Administrator" | Where-Object -Property Name -ne "Guest" | Where-Object -Property Name -ne "DefaultAccount" | Where-Object -Property Name -ne "WDAGUtilityAccount" | Select-Object -Property Name > $Path
     (get-content $Path) -replace "Name","" | Out-File $Path
     (get-content $Path) -replace "----","" | Out-File $Path
+    Msg $Env:UserName Remove all AUTHORIZED usernames from this text file. ALL LEFTOVER USERS WILL BE DELETED! 
     powershell.exe 'C:\WINDOWS\system32\notepad.exe' $Path
-    Write-Host "Double Check your Changes"
+    Msg $Env:UserName DOUBLE CHECK ALONGSIDE THE README
     powershell.exe 'C:\WINDOWS\system32\notepad.exe' $Path
     foreach ($user in Get-Content $Path){
         if(-not [string]::IsNullOrWhiteSpace($user)){
-            $user.Trim()
-            Write-Host ""
-            Remove-LocalUser -Name $user
+            $user = $user.Trim()
+            if($user -ne $Env:UserName){
+                Write-Host ""
+                Remove-LocalUser -Name $user
+            }
         }
     }
 }
@@ -56,6 +59,3 @@ function main(){
     #update_secpol
     remove_unauthorized_users
 }
-
-
-main
