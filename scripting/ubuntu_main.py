@@ -185,8 +185,54 @@ def update_policies():
     run("mv common-password-up /etc/pam.d/")
     run("rm -r /etc/pam.d/common-password")
     run("mv /etc/pam.d/common-password-up /etc/pam.d/common-password")
-    
+    run("sed -i '/PermitRootLogin/c\\PermitRootLogin no' /etc/ssh/sshd_config")
+    run("sed -i '/FAILLOG_ENAB/c\\FAILLOG_ENAB yes' /etc/login.defs")
+    run("sed -i '/LOG_UNKFAIL_ENAB/c\\LOG_UNKFAIL_ENAB yes' /etc/login.defs")
+    run("sed -i '/LOG_OK_LOGINS/c\\LOG_OK_LOGINS yes' /etc/login.defs")
+    run("sed -i '/SYSLOG_SU_ENAB/c\\SYSLOG_SU_ENAB yes' /etc/login.defs")
+    run("sed -i '/SYSLOG_SG_ENAB/c\\SYSLOG_SG_ENAB yes' /etc/login.defs")
+    run("sed -i '/SULOG_FILE/c\\SULOG_FILE /var/log/sulog' /etc/login.defs")
+    run("sed -i '/FTMP_FILE/c\\FTMP_FILE /var/log/btmp' /etc/login.defs")
+    run("sed -i '/SU_NAME/c\\SU_NAME su' /etc/login.defs")
+    run("sed -i '/LOGIN_RETRIES/c\\LOGIN_RETRIES 5' /etc/login.defs")
+    run("sed -i '/LOGIN_TIMEOUT/c\\LOGIN_TIMEOUT 60' /etc/login.defs")
+    run("sed -i '/ENCRYPT_METHOD/c\\ENCRYPT_METHOD sha512' /etc/login.defs")
 
+    
+def cleanup_system():
+    run("nano /etc/apt/sources.list")
+    run("nano /etc/resolv.conf") #use 8.8.8.8
+    run("nano /etc/hosts") # no redirects
+    run("nano /etc/rc.local") # only exit 0
+    run("nano /etc/sysctl.conf") # change net.ipv4.tcp_syncookies to enabled
+    run("apt -V -y install firefox hardinfo chkrootkit iptables portsentry lynis ufw gufw sysv-rc-conf nessus clamav")
+    run("apt -V -y install --reinstall coreutils")
+    run("apt update")
+    run("apt ugrade")
+    run("apt dist-upgrade")
+    run("iptables -A INPUT -p tcp -s 0/0 -d 0/0 --dport 23 -j DROP")
+    run("iptables -A INPUT -p tcp -s 0/0 -d 0/0 --dport 2-49 -j DROP")
+    run("iptables -A INPUT -p udp -s 0/0 -d 0/0 --dport 2049 -j DROP")
+    run("iptables -A INPUT -p tcp -s 0/0 -d 0/0 --dport 6000:6009 -j DROP")
+    run("iptables -A INPUT -p tcp -s 0/0 -d 0/0 --dport 7100 -j DROP")
+    run("iptables -A INPUT -p tcp -s 0/0 -d 0/0 --dport 515 -j DROP")
+    run("iptables -A INPUT -p udp -s 0/0 -d 0/0 --dport 515 -j DROP")
+    run("iptables -A INPUT -p tcp -s 0/0 -d 0/0 --dport 111 -j DROP")
+    run("iptables -A INPUT -p udp -s 0/0 -d 0/0 --dport 111 -j DROP")
+    run("iptables -A INPUT -p all -s localhost  -i eth0 -j DROP")
+    run("ufw enable")
+    run("ufw deny 23")
+    run("ufw deny 2049")
+    run("ufw deny 515")
+    run("ufw deny 111")
+    run("lsof -i -n -P")
+    run("netstat -tulpn")
+    run("find / -name '*.mp3' -type f -delete")
+    run("find / -name '*.mov' -type f -delete")
+    run("find / -name '*.mp4' -type f -delete")
+    run("find / -name '*.avi' -type f -delete")
+    run("find / -name '*.mpg' -type f -delete")
+    run("find / -name '*.mpeg' -type f -delete")
     
 
     
@@ -276,7 +322,7 @@ def main():
     except:
         print("Cannot Create User File.")
     
-    update_system()
+    cleanup_system():
     
     remove_unauthorized_users()
 
