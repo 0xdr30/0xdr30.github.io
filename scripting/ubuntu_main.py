@@ -200,6 +200,7 @@ def update_policies():
 
     
 def cleanup_system():
+    
     run("nano /etc/apt/sources.list")
     run("nano /etc/resolv.conf") #use 8.8.8.8
     run("nano /etc/hosts") # no redirects
@@ -233,6 +234,21 @@ def cleanup_system():
     run("find / -name '*.avi' -type f -delete")
     run("find / -name '*.mpg' -type f -delete")
     run("find / -name '*.mpeg' -type f -delete")
+    run("find / -name '*.flac' -type f -delete")
+    run("find / -name '*.m4a' -type f -delete")
+    run("find / -name '*.flv' -type f -delete")
+    run("find / -name '*.ogg' -type f -delete")
+    run("find /home -name '*.gif' -type f -delete")
+    run("find /home -name '*.png' -type f -delete")
+    run("find /home -name '*.jpg' -type f -delete")
+    run("find /home -name '*.jpeg' -type f -delete")
+    run("hardinfo -r -f html")
+    run("chkrootkit")
+    run("lynis -c")
+    run("freshclam")
+    run("clamscan -r /")
+
+
     
 
     
@@ -281,15 +297,6 @@ def change_passwords(password):
         print("Changing password for '" + user + "'!\n")
         run("usermod -p " + password + " " + user)
 
-def activate_firewall():
-    install_packages("ufw\n")
-    run("ufw enable\n")
-    run("ufw logging on\n")
-    
-def install_antivirus():
-    run("apt install clamav -y\n")
-    run("clamscan -y\n")
-    
 def remove_pup():
     dictionary = open("./hacking_tools.txt", "r").readlines()
     for tool_name in dictionary:
@@ -322,21 +329,15 @@ def main():
     except:
         print("Cannot Create User File.")
     
-    cleanup_system():
+    cleanup_system()
     
     remove_unauthorized_users()
 
     remove_pup()
-    
-    activate_firewall()
-    
-    install_antivirus()
 
     update_policies()
 
     change_passwords(new_password())
 
-    
-    
 main()
     
