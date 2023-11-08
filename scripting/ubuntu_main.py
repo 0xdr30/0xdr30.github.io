@@ -175,9 +175,18 @@ def update_policies():
     run("sed -i '/lcredit/c\\lcredit = -2' /etc/security/pwquality.conf")
     run("sed -i '/ocredit/c\\ocredit = -2' /etc/security/pwquality.conf")
     run("sed -i '/maxrepeat/c\\maxrepeat = -1' /etc/security/pwquality.conf")
-    print("PLEASE EDIT COMMON PASSWORD ACCORDINGLY:\n")
-    run("echo ''")
-    run("gedit /etc/pam.d/common-password")
+    run("touch common-password-up")
+    f = open("./common-password-up", "a")
+    f.write("password       requisite       pam_pwquality.so retry=3 minlen=10 dcredit=-2 ucredit=-2 lcredit=-2 ocredit=-2")
+    f.write("password       [success=1 default=ignore]      pam_unix.so obscure use_authtok try_first_pass sha512 remember=5")
+    f.write("password       requisite       pam_deny.so")
+    f.write("password       required        pam_permit.so")
+    f.write("password	    optional	    pam_gnome_keyring.so")
+    run("mv common-password-up /etc/pam.d/")
+    run("rm -r /etc/pam.d/common-password")
+    run("mv /etc/pam.d/common-password-up /etc/pam.d/common-password")
+    
+
     
 
     
