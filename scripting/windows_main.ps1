@@ -54,6 +54,23 @@ function remove_unauthorized_users(){
     }
 }
 
+Function Get-DesktopShortcuts(){
+    $Shortcuts = Get-ChildItem -Recurse "C:\Users\scinder\" -Include *.url
+    $Shell = New-Object -ComObject WScript.Shell
+    ForEach ($Shortcut in $Shortcuts)
+    {
+        $Properties = @{
+        ShortcutName = $Shortcut.Name;
+        ShortcutFull = $Shortcut.FullName;
+        ShortcutPath = $shortcut.DirectoryName;
+        Target       = $Shell.CreateShortcut($Shortcut).TargetPath
+    }
+    New-Object PSObject -Property $Properties
+    }
+    [Runtime.InteropServices.Marshal]::ReleaseComObject($Shell) | Out-Null
+}
+$Output = Get-DesktopShortcuts
+$Output = $Output | Select-Object -Property Target
 function main(){
     remove_shares
     #update_secpol
