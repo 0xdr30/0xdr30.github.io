@@ -132,8 +132,6 @@
   }
   
   .scripts {
-    width: 100%;
-    display: block;
     align-items: center;
   }
   .scripts a {
@@ -144,6 +142,8 @@
     color: white;
     display: block;
     float: left;
+    text-align: center;
+    width: 100%
   }
 
   .scripts a:hover{
@@ -151,12 +151,13 @@
     color: black;
   }
 
-  .scripts div{
-    text-decoration: none;
-    display: block;
+  .scripts h2{
+    padding: 1em 1em 1em 1em;
+    font-size: 119%; 
+    display: block; 
     text-align: center;
-    background-color: #333;
-    border-radius: 10px;
+    width: 100%;
+    float: left;
   }
 
 
