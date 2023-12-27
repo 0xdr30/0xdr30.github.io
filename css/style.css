@@ -12,13 +12,14 @@
     font-size: 100%;
   }
 
-  h2{
+  h2 {
     font-size: 100%;
   }
 
   a {
     color: white;
   }
+  
   a:hover {
     text-decoration: underline;
   }
@@ -32,102 +33,12 @@
     font-size: 175%;
     display: block;
   }
-  
-  .navbar {
-    overflow: hidden;
-    background-color: #333;
-    width: 100%;
-    border-radius: 10px;
-  }
-  
-  .navbar a{
-    float: left;
-    display: block;
-    font-size: 16px;
-    text-align: center;
-    padding: 14px 16px 14px 16px;
-    text-decoration: none;
-    -webkit-transition: all .25s ease;
-	  -moz-transition: all .25s ease;
-	  -ms-transition: all .25s ease;
-	  -o-transition: all .25s ease;
-	  transition: all .25s ease;
-    border-radius: 10px;
-  }
 
-  .navbar div{
-    -webkit-transition: all .25s ease;
-	  -moz-transition: all .25s ease;
-	  -ms-transition: all .25s ease;
-	  -o-transition: all .25s ease;
-	  transition: all .25s ease;
-  }
-  .dropdown div{
-    float:right;
-  }
-  
-  .dropdown {
-    float: left;
-    overflow: hidden;
-  }
-  
-  .dropdown .dropbtn {
-    font-size: 16px;  
-    border: none;
-    outline: none;
-    color: white;
-    padding: 14px 16px;
-    background-color: inherit;
-    font-family: inherit;
-    margin: 0;
-  }
-  
-  .navbar a:hover, .dropdown:hover .dropbtn {
-    color: red;
-  }
-  
-  .dropdown-content {
-    transition: ease-in;
-    display: none;
-    position: absolute;
-    background-color: white;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	  z-index: 1;
-  }
-
-  .dropdown-content a {
-    float: none;
-    color: white;
-    padding: 12px 16px;
-    text-decoration: none;
-    text-align: left;
-    padding-right: 3px;
-  }
-  
-  .dropdown-content a:hover {
-    background-color: #ddd;
-  }
-  
-  .dropdown:hover .dropdown-content {
-    display: block;
-    background-color: #333;
-    visibility: visible;
-    transition-duration: 2s;
-    transition-timing-function: linear;
-    z-index: 1;
-  }
-
-  .navbar a:hover, .dropdown:hover .dropbtn {
-    background-color: red;
-    color: white;
-  }
-  
   .about{
     font-size: 100%;
     text-decoration: none;
+    text-align: center;
     margin-left: 2em;
-    float: left;
     display: block;
   }
   
