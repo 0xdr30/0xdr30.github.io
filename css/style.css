@@ -131,34 +131,6 @@
     display: block;
   }
   
-  .scripts {
-    align-items: center;
-  }
-  .scripts a {
-    border-radius: 10px;
-    padding: 1em 1em 1em 1em;
-    font-size: 120%;
-    text-decoration: none;
-    color: white;
-    display: block;
-    float: left;
-    text-align: center;
-    width: 100%
-  }
-
-  .scripts a:hover{
-    background-color: white;
-    color: black;
-  }
-
-  .scripts h2{
-    padding: 1em 1em 1em 1em;
-    font-size: 119%; 
-    display: block; 
-    text-align: center;
-    width: 100%;
-    float: left;
-  }
 
 
   @media screen and (max-width: 600px) {

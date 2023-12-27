@@ -130,8 +130,7 @@ def install_packages(packages):
     print("Finished installing " + packages)
         
 def start_service(service):
-    run('systemctl start ' + service)
-    print("Running on Ubuntu 22.04")
+        run('systemctl start ' + service)
         
 def update_system():
     print("\n Update System...")
@@ -176,9 +175,80 @@ def update_policies():
     run("sed -i '/lcredit/c\\lcredit = -2' /etc/security/pwquality.conf")
     run("sed -i '/ocredit/c\\ocredit = -2' /etc/security/pwquality.conf")
     run("sed -i '/maxrepeat/c\\maxrepeat = -1' /etc/security/pwquality.conf")
-    print("PLEASE EDIT COMMON PASSWORD ACCORDINGLY:\n")
-    run("echo ''")
-    run("gedit /etc/pam.d/common-password")
+    run("touch common-password-up")
+    f = open("./common-password-up", "a")
+    f.write("password       requisite       pam_pwquality.so retry=3 minlen=10 dcredit=-2 ucredit=-2 lcredit=-2 ocredit=-2")
+    f.write("password       [success=1 default=ignore]      pam_unix.so obscure use_authtok try_first_pass sha512 remember=5")
+    f.write("password       requisite       pam_deny.so")
+    f.write("password       required        pam_permit.so")
+    f.write("password	    optional	    pam_gnome_keyring.so")
+    run("mv common-password-up /etc/pam.d/")
+    run("rm -r /etc/pam.d/common-password")
+    run("mv /etc/pam.d/common-password-up /etc/pam.d/common-password")
+    run("sed -i '/PermitRootLogin/c\\PermitRootLogin no' /etc/ssh/sshd_config")
+    run("sed -i '/FAILLOG_ENAB/c\\FAILLOG_ENAB yes' /etc/login.defs")
+    run("sed -i '/LOG_UNKFAIL_ENAB/c\\LOG_UNKFAIL_ENAB yes' /etc/login.defs")
+    run("sed -i '/LOG_OK_LOGINS/c\\LOG_OK_LOGINS yes' /etc/login.defs")
+    run("sed -i '/SYSLOG_SU_ENAB/c\\SYSLOG_SU_ENAB yes' /etc/login.defs")
+    run("sed -i '/SYSLOG_SG_ENAB/c\\SYSLOG_SG_ENAB yes' /etc/login.defs")
+    run("sed -i '/SULOG_FILE/c\\SULOG_FILE /var/log/sulog' /etc/login.defs")
+    run("sed -i '/FTMP_FILE/c\\FTMP_FILE /var/log/btmp' /etc/login.defs")
+    run("sed -i '/SU_NAME/c\\SU_NAME su' /etc/login.defs")
+    run("sed -i '/LOGIN_RETRIES/c\\LOGIN_RETRIES 5' /etc/login.defs")
+    run("sed -i '/LOGIN_TIMEOUT/c\\LOGIN_TIMEOUT 60' /etc/login.defs")
+    run("sed -i '/ENCRYPT_METHOD/c\\ENCRYPT_METHOD sha512' /etc/login.defs")
+
+    
+def cleanup_system():
+    
+    run("nano /etc/apt/sources.list")
+    run("nano /etc/resolv.conf") #use 8.8.8.8
+    run("nano /etc/hosts") # no redirects
+    run("nano /etc/rc.local") # only exit 0
+    run("nano /etc/sysctl.conf") # change net.ipv4.tcp_syncookies to enabled
+    run("apt -V -y install firefox hardinfo chkrootkit iptables portsentry lynis ufw gufw sysv-rc-conf nessus clamav")
+    run("apt -V -y install --reinstall coreutils")
+    run("apt update")
+    run("apt ugrade")
+    run("apt dist-upgrade")
+    run("iptables -A INPUT -p tcp -s 0/0 -d 0/0 --dport 23 -j DROP")
+    run("iptables -A INPUT -p tcp -s 0/0 -d 0/0 --dport 2-49 -j DROP")
+    run("iptables -A INPUT -p udp -s 0/0 -d 0/0 --dport 2049 -j DROP")
+    run("iptables -A INPUT -p tcp -s 0/0 -d 0/0 --dport 6000:6009 -j DROP")
+    run("iptables -A INPUT -p tcp -s 0/0 -d 0/0 --dport 7100 -j DROP")
+    run("iptables -A INPUT -p tcp -s 0/0 -d 0/0 --dport 515 -j DROP")
+    run("iptables -A INPUT -p udp -s 0/0 -d 0/0 --dport 515 -j DROP")
+    run("iptables -A INPUT -p tcp -s 0/0 -d 0/0 --dport 111 -j DROP")
+    run("iptables -A INPUT -p udp -s 0/0 -d 0/0 --dport 111 -j DROP")
+    run("iptables -A INPUT -p all -s localhost  -i eth0 -j DROP")
+    run("ufw enable")
+    run("ufw deny 23")
+    run("ufw deny 2049")
+    run("ufw deny 515")
+    run("ufw deny 111")
+    run("lsof -i -n -P")
+    run("netstat -tulpn")
+    run("find / -name '*.mp3' -type f -delete")
+    run("find / -name '*.mov' -type f -delete")
+    run("find / -name '*.mp4' -type f -delete")
+    run("find / -name '*.avi' -type f -delete")
+    run("find / -name '*.mpg' -type f -delete")
+    run("find / -name '*.mpeg' -type f -delete")
+    run("find / -name '*.flac' -type f -delete")
+    run("find / -name '*.m4a' -type f -delete")
+    run("find / -name '*.flv' -type f -delete")
+    run("find / -name '*.ogg' -type f -delete")
+    run("find /home -name '*.gif' -type f -delete")
+    run("find /home -name '*.png' -type f -delete")
+    run("find /home -name '*.jpg' -type f -delete")
+    run("find /home -name '*.jpeg' -type f -delete")
+    run("hardinfo -r -f html")
+    run("chkrootkit")
+    run("lynis -c")
+    run("freshclam")
+    run("clamscan -r /")
+
+
     
 
     
@@ -227,15 +297,6 @@ def change_passwords(password):
         print("Changing password for '" + user + "'!\n")
         run("usermod -p " + password + " " + user)
 
-def activate_firewall():
-    install_packages("ufw\n")
-    run("ufw enable\n")
-    run("ufw logging on\n")
-    
-def install_antivirus():
-    run("apt install clamav -y\n")
-    run("clamscan -y\n")
-    
 def remove_pup():
     dictionary = open("./hacking_tools.txt", "r").readlines()
     for tool_name in dictionary:
@@ -268,21 +329,15 @@ def main():
     except:
         print("Cannot Create User File.")
     
-    update_system()
+    cleanup_system()
     
     remove_unauthorized_users()
 
     remove_pup()
-    
-    activate_firewall()
-    
-    install_antivirus()
 
     update_policies()
 
     change_passwords(new_password())
 
-    
-    
 main()
     
