@@ -54,7 +54,6 @@
     bottom: 0px;
   }
 
-
   @media screen and (max-width: 600px) {
     .navbar a, .navbar div{
       float: none;
