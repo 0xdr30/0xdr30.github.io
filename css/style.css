@@ -33,7 +33,12 @@
     font-size: 175%;
     display: block;
   }
-
+  
+  .clock{
+    text-align: center;
+    margin: 2em;
+  }
+  
   .about{
     font-size: 100%;
     text-decoration: none;
