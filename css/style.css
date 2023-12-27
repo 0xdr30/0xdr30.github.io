@@ -2,6 +2,7 @@
 
 
   body, html{
+    min-width: 400px;
     width: 100%;
     font-family:sans-serif;
     background-color:#242526;
@@ -35,8 +36,10 @@
   }
   
   .clock{
-    text-align: center;
-    margin: 2em;
+    bottom: 0px;
+    right: 0px;
+    position: absolute;
+    text-align: right;
   }
 
   .about{
@@ -52,6 +55,7 @@
     display: block;
     font-size:2em;
     bottom: 0px;
+    position: absolute;
   }
 /*
 Navigation Section of CSS
