@@ -87,6 +87,7 @@ Navigation Section of CSS
   .dropdown {
     float: left;
     overflow: hidden;
+    margin: 0;
   }
   
   .dropdown .dropbtn {
