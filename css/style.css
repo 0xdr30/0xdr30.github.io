@@ -38,7 +38,7 @@
     text-align: center;
     margin: 2em;
   }
-  
+
   .about{
     font-size: 100%;
     text-decoration: none;
@@ -47,6 +47,12 @@
     display: block;
   }
   
+  .social {
+    text-align: center;
+    display: block;
+    font-size:2em;
+    bottom: 0px;
+  }
 
 
   @media screen and (max-width: 600px) {
