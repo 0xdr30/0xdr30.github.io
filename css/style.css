@@ -27,10 +27,18 @@
   .whitespace{
     margin:10em;
   }
-  .block{
+  .bottom{
     text-align: center;
     margin: auto;
+    padding-left: 2em;
+    padding-right: 2em;
     border: none;
+    font-size: 1rem;
+    position: absolute;
+    bottom: 0.5rem;
+    right: 10%;
+    left: 10%;
+
   }
   .title{
     text-align: center;
@@ -43,8 +51,8 @@
   }
   
   .clock{
-    bottom: 0px;
-    right: 0px;
+    bottom: 0.5rem;
+    right: 0.5rem;
     position: absolute;
     text-align: right;
   }
@@ -60,8 +68,8 @@
   .social {
     text-align: center;
     display: block;
-    font-size:2em;
-    bottom: 0px;
+    font-size:1em;
+    bottom: 0.5rem;
     position: absolute;
   }
 /*
@@ -126,7 +134,7 @@ Navigation Section of CSS
     text-align: left;
   }
   
-  .topnav a:hover, .dropdown:hover .dropbtn {
+  .topnav a:hover:hover, .dropdown:hover .dropbtn {
     background-color: #555;
     color: white;
   }
