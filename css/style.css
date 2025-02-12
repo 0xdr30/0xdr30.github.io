@@ -24,7 +24,14 @@
   a:hover {
     text-decoration: underline;
   }
-
+  .whitespace{
+    margin:10em;
+  }
+  .block{
+    text-align: center;
+    margin: auto;
+    border: none;
+  }
   .title{
     text-align: center;
     margin: auto;
